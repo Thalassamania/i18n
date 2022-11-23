@@ -1,5 +1,20 @@
 import React, { useState } from "react";
 import Job from "./job";
+import {FormattedMessage} from 'react-intl';
+
+
+async function detectar() {
+  var userLang = navigator.language || navigator.userLanguage;
+  if (userLang === "en"){
+    return ( await fetch('../locales/en.json').then(response => response.json()) )
+  }
+  else if (userLang === "es"){
+    return ( await  fetch('../locales/es.json').then(response => response.json()) )
+  }
+  else{
+    return ( await  fetch('../locales/es.json').then(response => response.json()) )
+  }
+}
 
 const JobsList = () => {
   const [offers] = useState([
@@ -28,18 +43,20 @@ const JobsList = () => {
       date: "2019-03-28",
     },
   ]);
-
+  var jsonAUsar = detectar()
   return (
     <div>
       <table className="table">
         <thead className="thead-dark">
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Position</th>
-            <th scope="col">Company</th>
-            <th scope="col">Salary</th>
-            <th scope="col">City</th>
-            <th scope="col">Publication date</th>
+            <th scope="col">
+              <FormattedMessage id="Position" />
+            </th>
+            <th scope="col">{jsonAUsar['Company']}</th>
+            <th scope="col">{jsonAUsar['Salary']}</th>
+            <th scope="col">{jsonAUsar['City']}</th>
+            <th scope="col">{jsonAUsar['PublicationDate']}</th>
           </tr>
         </thead>
         <tbody>
